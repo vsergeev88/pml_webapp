@@ -9,11 +9,11 @@ function App() {
 
   const tg = window.Telegram?.WebApp
 
-  const onSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
+  const onSubmit = async (e: React.MouseEvent) => {
     e.preventDefault()
     await tg.sendData(JSON.stringify({text}))
     setText('')
-    tg.close()
+    // tg.close()
   }
 
   return (
@@ -33,15 +33,17 @@ function App() {
           count is {count}
         </button>
 
-        <form onSubmit={onSubmit}>
+        {/* <form onSubmit={onSubmit}> */}
+        <div>
           <input type="text" value={text} onChange={e => setText(e.target.value)} />
-          <button type="submit">Submit</button>
-        </form>
+          <button onClick={onSubmit}>Submit</button>
+        </div>
+        {/* </form> */}
 
       </div>
-      <p className="read-the-docs">
+      {/* <p className="read-the-docs">
         {JSON.stringify(tg)}
-      </p>
+      </p> */}
     </>
   )
 }
