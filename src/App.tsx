@@ -26,7 +26,7 @@ function App() {
           <img src={reactLogo} className="logo react" alt="React logo" />
         </a>
       </div>
-      <h1>Vite + React</h1>
+      <h1>Query id: {tg.initDataUnsafe.query_id}</h1>
       <h2>Current time is {new Date().toTimeString()}</h2>
       <div className="card">
         <button onClick={() => setCount((count) => count + 1)}>
