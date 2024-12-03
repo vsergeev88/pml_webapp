@@ -5,8 +5,16 @@ import './App.css'
 
 function App() {
   const [count, setCount] = useState(0)
+  const [text, setText] = useState('')
 
   const tg = window.Telegram?.WebApp
+
+  const onSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
+    e.preventDefault()
+    await tg.sendData(JSON.stringify({text}))
+    setText('')
+    tg.close()
+  }
 
   return (
     <>
@@ -24,9 +32,12 @@ function App() {
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
         </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
+
+        <form onSubmit={onSubmit}>
+          <input type="text" value={text} onChange={e => setText(e.target.value)} />
+          <button type="submit">Submit</button>
+        </form>
+
       </div>
       <p className="read-the-docs">
         {JSON.stringify(tg)}
