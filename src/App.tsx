@@ -6,6 +6,8 @@ import './App.css'
 function App() {
   const [count, setCount] = useState(0)
 
+  const tg = window.Telegram?.WebApp
+
   return (
     <>
       <div>
@@ -27,7 +29,7 @@ function App() {
         </p>
       </div>
       <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
+        {JSON.stringify(tg)}
       </p>
     </>
   )
