@@ -1,50 +1,45 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from 'react';
+import './App.css';
 
 function App() {
-  const [count, setCount] = useState(0)
-  const [text, setText] = useState('')
+  const [text, setText] = useState('');
 
-  const tg = window.Telegram?.WebApp
+  const tg = window.Telegram?.WebApp;
 
-  const onSubmit = async (e: React.MouseEvent) => {
-    e.preventDefault()
-    await tg.sendData(JSON.stringify({text}))
-    setText('')
-    tg.close()
-  }
+  // Инициализация WebApp
+  tg?.ready();
+
+  const onSubmit = (e: React.MouseEvent) => {
+    e.preventDefault();
+
+    if (!tg) {
+      console.error('Telegram WebApp не найден');
+      return;
+    }
+
+    // Отправка данных в бот
+    tg.sendData(JSON.stringify({ text }));
+
+    // Очистка поля после отправки
+    setText('');
+  };
+
+  const onClose = () => {
+    tg?.close(); // Закрытие WebApp
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h2>Current time is {new Date().toTimeString()}</h2>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-
-        {/* <form onSubmit={onSubmit}> */}
-        <div>
-          <input type="text" value={text} onChange={e => setText(e.target.value)} />
-          <button onClick={onSubmit}>Submit</button>
-        </div>
-        {/* </form> */}
-
-      </div>
-      {/* <p className="read-the-docs">
-        {JSON.stringify(tg)}
-      </p> */}
-    </>
-  )
+    <div className="card">
+      <input
+        type="text"
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+        placeholder="Введите текст"
+      />
+      <button onClick={onSubmit}>Отправить</button>
+      <button onClick={onClose}>Закрыть</button>
+    </div>
+  );
 }
 
-export default App
+export default App;
